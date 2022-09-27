@@ -20,10 +20,12 @@
                 
                 $file_ext = explode('.', $file_name);
                 $ext = strtolower(end($file_ext));
+
+                $newFileName = time().'.'.$ext;
             
                 if (in_array($ext, $allowed_extensions)) {
-                    if ($file_size < 1000000) {
-                        $target_dir = "uploads/".$file_name;
+                    if ($file_size < 100000000) {
+                        $target_dir = "uploads/".$newFileName;
                         $uploadFile = move_uploaded_file($file_tmp, $target_dir);
 
                         if ($uploadFile) {
@@ -34,7 +36,7 @@
                             $post_id = end($posts)[0];
                             print_r($post_id);
     
-                            $imageQuery = "INSERT INTO `images_tb`(`name`, `post_id`) VALUES('$file_name', '$post_id')";
+                            $imageQuery = "INSERT INTO `images_tb`(`name`, `post_id`) VALUES('$newFileName', '$post_id')";
                             $checkImage = mysqli_query($connect, $imageQuery);
     
                             if ($checkImage) {

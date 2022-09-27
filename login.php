@@ -6,8 +6,12 @@ session_start();
         $email = $_POST['email'];
         $password = $_POST['password'];
 
-        $query = "SELECT * FROM users_tb WHERE email='$email'";
-        $foundDetails = mysqli_query($connect, $query);
+        $query = "SELECT * FROM users_tb WHERE email=?";
+        $data = $connect->prepare($query);
+        $data->bind_param('s', $email);
+        $data->execute();
+
+        $foundDetails = mysqli_stmt_get_result($data);
 
         if (mysqli_num_rows($foundDetails) > 0) {
           $user = mysqli_fetch_array($foundDetails);
