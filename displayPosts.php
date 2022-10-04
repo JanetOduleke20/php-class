@@ -2,7 +2,7 @@
     require('conn.php');
 
     $query = "SELECT * FROM posts_tb";
-    $posts = mysqli_query($connect, $query);
+    $posts = mysqli_query($this->connect, $query);
     $postsArray = mysqli_fetch_all($posts);
     // print_r($postsArray);
 

@@ -1,13 +1,18 @@
 <?php
     require('conn.php');
     session_start();
+    $id = $_COOKIE['user_id'];
 
-    $user_id =  $_SESSION['user_id'];
-    $query = "SELECT * FROM users_tb WHERE id='$user_id'";
-    $found = mysqli_query($connect, $query);
+    $query = "SELECT * FROM users_tb WHERE id=?";
+
+    $prepare = $connect->prepare($query);
+    $prepare->bind_param('s', $id);
+    $prepare->execute();
+    
+    $found = mysqli_stmt_get_result($prepare);
 
     $user = mysqli_fetch_array($found);
-
+    echo $id;
   
 
 ?>
@@ -50,6 +55,7 @@
                     echo "<p class='text-danger text-success'>".$_SESSION['response']."</p>";
                     
                 }
+                session_unset();
             ?>
 
             <div>

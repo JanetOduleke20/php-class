@@ -20,8 +20,9 @@ session_start();
         $verify = password_verify($password, $userPassword);
 
         if ($verify) {
-            $user_id = $user['id'];
-            $_SESSION['user_id'] = $user_id;
+            $cookie_name = "user_id";
+            setcookie($cookie_name, $user['id'], time() + 86,400 * 30, "/");
+            // echo $_COOKIE["user_id"];
             header("location: dashboard.php");
         }else {
             $_SESSION['response'] = "Password is not correct";
@@ -56,8 +57,8 @@ session_start();
                         if (isset($_SESSION['response'])) {
                             echo "<p class='text-danger text-center'>".$_SESSION['response']."</p>";
                         }
+                        session_unset();
                     ?>
-                    
                     <div class="form-group mt-2">
                         <label for="">E-mail Address</label>
                         <input type="email" class="form-control" placeholder="E-mail Address" name="email">
